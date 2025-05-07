@@ -31,13 +31,20 @@ jobs:
 
       - name: Conditional Tagging and Pushing
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            docker push myusername/myapp:latest
-          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
-            VERSION_TAG="v1.0.0"  # Replace with dynamic version if needed
-            docker tag myapp:latest myusername/myapp:${VERSION_TAG}
-            docker push myusername/myapp:${VERSION_TAG}
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+              echo "Pushing latest tag..."
+              docker tag myapp:latest myusername/myapp:latest
+              docker push myusername/myapp:latest
+          elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
+              VERSION_TAG="v1.0.0"  # Replace with dynamic version if needed
+              echo "Pushing versioned tag: ${VERSION_TAG}..."
+              docker tag myapp:latest myusername/myapp:${VERSION_TAG}
+              docker push myusername/myapp:${VERSION_TAG}
           else
-            docker tag myapp:latest myusername/myapp:${{ github.sha }}
-            docker push myusername/myapp:${{ github.sha }}
+              echo "Pushing commit tag: ${GITHUB_SHA}..."
+              docker tag myapp:latest myusername/myapp:${GITHUB_SHA}
+              docker push myusername/myapp:${GITHUB_SHA}
+          fi
+
+
 
