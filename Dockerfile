@@ -8,5 +8,6 @@ WORKDIR /app
 COPY src/ .
 
 # 指定容器啟動指令
-CMD ["python", "main.py"]
+CMD ["python", "-u", "main.py"]
+
 
