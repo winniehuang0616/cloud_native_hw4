@@ -43,7 +43,6 @@ jobs:
               docker tag 2025cloud:latest winniehuang0616/2025cloud:latest
               docker push winniehuang0616/2025cloud:latest
           elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
-              VERSION_TAG="v1.0.0"
               echo "Pushing versioned tag: ${VERSION_TAG}..."
               docker tag 2025cloud:latest winniehuang0616/2025cloud:${VERSION_TAG}
               docker push winniehuang0616/2025cloud:${VERSION_TAG}
