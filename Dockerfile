@@ -1,6 +1,15 @@
-FROM nginx:alpine
-LABEL maintainer="winniehuang"
-COPY index.html /usr/share/nginx/html/
-COPY ./photo/dinasour.png /usr/share/nginx/html/
-COPY ./photo/snowman.jpg /usr/share/nginx/html/
-COPY ./photo/xmas.jpg /usr/share/nginx/html/
+# 選擇基礎映像檔
+FROM python:3.9-slim
+
+# 設定工作目錄
+WORKDIR /app
+
+# 複製應用程式原始碼
+COPY src/ .
+
+# 安裝相依套件（如果有）
+RUN pip install -r requirements.txt
+
+# 指定容器啟動指令
+CMD ["python", "main.py"]
+
