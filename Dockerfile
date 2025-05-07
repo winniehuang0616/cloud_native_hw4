@@ -7,9 +7,6 @@ WORKDIR /app
 # 複製應用程式原始碼
 COPY src/ .
 
-# 安裝相依套件（如果有）
-RUN pip install -r requirements.txt
-
 # 指定容器啟動指令
 CMD ["python", "main.py"]
 
