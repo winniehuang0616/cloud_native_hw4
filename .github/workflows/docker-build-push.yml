@@ -42,7 +42,7 @@ jobs:
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
               echo "Pushing latest tag..."
-              docker tag 2025cloud:latest winniehuang0616/2025cloud:latest
+              docker tag 2026cloud:latest winniehuang0616/2025cloud:latest
               docker push winniehuang0616/2025cloud:latest
           elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
               echo "Pushing versioned tag: ${VERSION_TAG}..."
