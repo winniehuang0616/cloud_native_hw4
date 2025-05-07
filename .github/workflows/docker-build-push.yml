@@ -24,26 +24,33 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set Version Tag (Release)
+        if: startsWith(github.ref, 'refs/heads/release/')
+        run: |
+          chmod +x ./scripts/versioning.sh
+          VERSION_TAG=$(./scripts/versioning.sh)
+          echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_ENV
+
       - name: Build Docker Image
         run: |
-          docker build -t myapp:latest .
-          docker tag myapp:latest myusername/myapp:latest
+          docker build -t 2025cloud:latest .
+          docker tag 2025cloud:latest winniehuang0616/2025cloud:latest
 
       - name: Conditional Tagging and Pushing
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
               echo "Pushing latest tag..."
-              docker tag myapp:latest myusername/myapp:latest
-              docker push myusername/myapp:latest
+              docker tag 2025cloud:latest winniehuang0616/2025cloud:latest
+              docker push winniehuang0616/2025cloud:latest
           elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
-              VERSION_TAG="v1.0.0"  # Replace with dynamic version if needed
+              VERSION_TAG="v1.0.0"
               echo "Pushing versioned tag: ${VERSION_TAG}..."
-              docker tag myapp:latest myusername/myapp:${VERSION_TAG}
-              docker push myusername/myapp:${VERSION_TAG}
+              docker tag 2025cloud:latest winniehuang0616/2025cloud:${VERSION_TAG}
+              docker push winniehuang0616/2025cloud:${VERSION_TAG}
           else
               echo "Pushing commit tag: ${GITHUB_SHA}..."
-              docker tag myapp:latest myusername/myapp:${GITHUB_SHA}
-              docker push myusername/myapp:${GITHUB_SHA}
+              docker tag 2025cloud:latest winniehuang0616/2025cloud:${GITHUB_SHA}
+              docker push winniehuang0616/2025cloud:${GITHUB_SHA}
           fi
 
 
